@@ -64,5 +64,78 @@ trait DirectMessageTrait
         }
 
         return $this->post('direct_messages/events/new', $parameters);
-    }
+	}
+	
+	public function postDmWelcomeMessage($parameters = [])
+	{
+		if ((!array_key_exists('message_data', $parameters) && !array_key_exists('name', $parameters))) {
+            throw new BadMethodCallException('Parameter required missing : message_data and name');
+		}
+		
+		return $this->post('direct_messages/welcome_messages/new', $parameters);
+	}
+
+	public function getDmWelcomeMessage($parameters = [])
+	{
+		if (!array_key_exists('id', $parameters)) {
+            throw new BadMethodCallException('Parameter required missing : id');
+		}
+
+		return $this->get('direct_messages/welcome_messages/show', $parameters);
+	}
+
+	public function updateDmWelcomeMessage($parameters = [])
+	{
+		if ((!array_key_exists('id', $parameters) && !array_key_exists('message_data', $parameters))) {
+            throw new BadMethodCallException('Parameter required missing : id and message_data');
+		}
+		
+		return $this->query('direct_messages/welcome_messages/update', 'PUT', $parameters = []);
+	}
+
+	public function destroyDmWelcomeMessage($parameters = [])
+	{
+		if (!array_key_exists('id', $parameters)) {
+            throw new BadMethodCallException('Parameter required missing : id');
+		}
+		
+		return $this->delete('direct_messages/welcome_messages/destroy', $parameters = []);
+	}
+
+	public function getDmWelcomeMessagesList($parameters = [])
+	{
+		return $this->get('direct_messages/welcome_messages/list', $parameters);
+	}
+
+	public function postDmWelcomeMessagesRule($parameters = [])
+	{
+		if (!array_key_exists('welcome_message_id', $parameters)) {
+            throw new BadMethodCallException('Parameter required missing : welcome_message_id');
+		}
+		
+		return $this->post('direct_messages/welcome_messages/rules/new', $parameters);
+	}
+
+	public function getDmWelcomeMessagesRule($parameters = [])
+	{
+		if (!array_key_exists('id', $parameters)) {
+            throw new BadMethodCallException('Parameter required missing : id');
+		}
+
+		return $this->get('direct_messages/welcome_messages/rules/show', $parameters);
+	}
+
+	public function destroyDmWelcomeMessagesRule($parameters = [])
+	{
+		if (!array_key_exists('id', $parameters)) {
+            throw new BadMethodCallException('Parameter required missing : id');
+		}
+		
+		return $this->delete('direct_messages/welcome_messages/rules/destroy', $parameters = []);
+	}
+
+	public function getDmWelcomeMessagesListRules($parameters = [])
+	{
+		return $this->get('direct_messages/welcome_messages/rules/list', $parameters);
+	}
 }
