@@ -304,9 +304,9 @@ class Twitter extends tmhOAuth
                     $error_msg = $response['error'];
                 }
             } else {
-                $error_code = $response['code'];
-                $error_msg = ($error_code == 503) ? 'Service Unavailable' : 'Unknown error';
-            }
+				$error_code = $response['code'];
+                $error_msg = ($error_code == 503) ? 'Service Unavailable' : $response['headers']['status'];
+			}
 
             $this->log('ERROR_CODE : '.$error_code);
             $this->log('ERROR_MSG : '.$error_msg);
