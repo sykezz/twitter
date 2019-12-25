@@ -2,6 +2,7 @@
 
 namespace Thujohn\Twitter\Traits;
 
+use Illuminate\Support\Arr;
 use BadMethodCallException;
 
 trait DirectMessageTrait
@@ -59,10 +60,10 @@ trait DirectMessageTrait
      */
     public function postDm($parameters = [])
     {
-        if ((!array_key_exists('type', $parameters) && !array_key_exists('message_create', $parameters))) {
-            throw new BadMethodCallException('Parameter required missing : user_id, screen_name or text');
+        if (!Arr::has($parameters, ['event.type', 'event.message_create.target.recipient_id', 'event.message_create.message_data.text'])) {
+            throw new BadMethodCallException('Parameter required missing : event.type, event.message_create.target.recipient_id or event.message_create.message_data.text');
         }
 
-        return $this->post('direct_messages/events/new', $parameters);
+        return $this->post('direct_messages/events/new', json_encode($parameters));
     }
 }
