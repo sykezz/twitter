@@ -254,7 +254,7 @@ class Twitter extends tmhOAuth
         $this->log('METHOD : '.$requestMethod);
         $this->log('QUERY : '.$name);
         $this->log('URL : '.$url);
-        $this->log('PARAMETERS : '.http_build_query($parameters));
+        $this->log('PARAMETERS : '.is_string($parameters) ? $parameters : http_build_query($parameters));
         $this->log('MULTIPART : '.($multipart ? 'true' : 'false'));
 
         if ($appOnly) {
@@ -304,9 +304,9 @@ class Twitter extends tmhOAuth
                     $error_msg = $response['error'];
                 }
             } else {
-                $error_code = $response['code'];
-                $error_msg = ($error_code == 503) ? 'Service Unavailable' : 'Unknown error';
-            }
+				$error_code = $response['code'];
+                $error_msg = ($error_code == 503) ? 'Service Unavailable' : $response['headers']['status'];
+			}
 
             $this->log('ERROR_CODE : '.$error_code);
             $this->log('ERROR_MSG : '.$error_msg);
